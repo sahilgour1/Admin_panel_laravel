@@ -41,12 +41,175 @@
 <link rel="stylesheet" href="<?php echo asset('css/boxicons.css');?>"/>
 <link rel="stylesheet" href="<?php echo asset('css/blogpost.css');?>"/>
 <link rel="stylesheet" href="<?php echo asset('css/bloglist.css');?>"/>
+<link rel="stylesheet" href="<?php echo asset('css/addmore.css');?>"/>
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"/>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
 
 
   </head>
 
   <body>
+    <style>
+      .menu {
+    display: flex;
+    gap:10px;
+    flex-direction: column;
+    }
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f9f9f9;
+    }
+
+    .menu {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .menu-item {
+    animation: slideIn 0.6s ease, fadeIn 0.6s ease;
+    margin-left: 14px;
+    width: 235px;
+    border-radius: 9px;
+}
+.menu-item {
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+/* Menu link with gradient background */
+.menu-link {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    text-decoration: none;
+    color: #444;
+    font-size: 16px;
+    background: linear-gradient(135deg, #ffffff, #f3f3f3);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.4s, color 0.4s ease;
+    text-decoration:none;
+}
+
+/* Hover effect on menu link */
+.menu-link:hover {
+    background: linear-gradient(135deg, #e6f7ff, #ccf2ff);
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3);
+    color: #007bff;
+    text-decoration:none;
+
+}
+
+/* Submenu styling */
+.menu-sub {
+    list-style: none;
+    padding-left: 20px;
+    margin: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.6s ease-in-out, opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+/* Show submenu when the item is open */
+.menu-item.open > .menu-sub {
+    max-height: 1000px;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Menu icon */
+.menu-icon {
+    margin-right: 15px;
+    font-size: 18px;
+    color: #666;
+    transition: transform 0.4s ease, color 0.4s ease;
+}
+
+/* Toggle icon transition */
+.menu-toggle::after {
+    content: '\25BC'; /* Down arrow */
+    margin-left: auto;
+    font-size: 12px;
+    transition: transform 0.4s ease, color 0.4s ease;
+    color: #999;
+}
+
+/* Change toggle icon when menu is open */
+.menu-item.open > .menu-link .menu-toggle::after {
+    transform: rotate(180deg);
+    color: #007bff;
+}
+
+/* Hover Glow Effect */
+.menu-link:hover {
+    box-shadow: 0 12px 30px rgba(0, 123, 255, 0.4);
+}
+
+/* Submenu animation */
+.menu-sub {
+    animation: submenuSlide 0.5s ease forwards;
+}
+
+/* Submenu slide animation */
+@keyframes submenuSlide {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Smooth color transition for links */
+.menu-link {
+    transition: color 0.3s ease;
+}
+
+.menu-link:hover {
+    color: #007bff;
+    background: linear-gradient(135deg, #e6f7ff, #ccf2ff); /* Smooth hover effect */
+}
+
+/* Entry animation for menu items */
+@keyframes slideIn {
+    from {
+        transform: translateX(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.menu-item {
+    animation: slideIn 0.5s ease-out;
+}
+
+/* Fade in effect */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+    </style>
     <!-- Layout wrapper -->
     <div class="layout-wrapper layout-content-navbar">
       <div class="layout-container">
@@ -122,6 +285,7 @@
 
           <ul class="menu-inner py-1">
             <!-- Dashboard -->
+      
             <li class="menu-item active">
             <a href="{{ route('dashboard') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
@@ -130,62 +294,45 @@
             </li>
 
             <!-- Layouts -->
+             <!-- start  -->
+                <ul class="menu">
+        @foreach($menu->json_output as $item)
+        <li class="menu-item">
+            <a href="{{ $item['href'] ? route($item['href']) : 'javascript:void(0);' }}" class="menu-link menu-toggle">
+            <i class="menu-icon {{ $item['icon'] ?? 'fas fa-circle' }}"></i>
+            <div data-i18n="{{ $item['title'] ?? '' }}">{{ $item['text'] }}</div>
+        </a>
+        @if(!empty($item['children']))
+        <ul class="menu-sub">
+            @foreach($item['children'] as $child)
             <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-layout"></i>
-                <div data-i18n="Layouts">Blogs</div>
-              </a>
-
-              <ul class="menu-sub">
-                <li class="menu-item">
-                <a href="{{ route('bloglist') }}"class="menu-link">
-                    <div data-i18n="Without menu">Blog List</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                <a href="{{ route('healthlist') }}"  class="menu-link">
-                    <div data-i18n="Without navbar">Health List</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                <a href="{{ route('educationlist') }}" class="menu-link">
-                    <div data-i18n="Container">Education  List </div>
-                  </a>
-                </li>
-                
-              </ul>
+                <a href="{{ $child['href'] ? route($child['href']) : 'javascript:void(0);' }}" class="menu-link">
+                    <i class="menu-icon {{ $child['icon'] ?? 'fas fa-circle' }}"></i>
+                    <div data-i18n="{{ $child['title'] ?? '' }}">{{ $child['text'] }}</div>
+                </a>
+                @if(!empty($child['children']))
+                <ul class="menu-sub">
+                    @foreach($child['children'] as $subChild)
+                    <li class="menu-item">
+                        <a href="{{ $subChild['href'] ? route($subChild['href']) : 'javascript:void(0);' }}" class="menu-link">
+                            <i class="menu-icon {{ $subChild['icon'] ?? 'fas fa-circle' }}"></i>
+                            <div data-i18n="{{ $subChild['title'] ?? '' }}">{{ $subChild['text'] }}</div>
+                        </a>
+                    </li>
+                    @endforeach
+                </ul>
+                @endif
             </li>
+            @endforeach
+        </ul>
+        @endif
+    </li>
+    @endforeach
+</ul>
 
-        
-            <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-cube-alt"></i>
-                <div data-i18n="Misc">News </div>
-              </a>
-              <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="pages-misc-error.html" class="menu-link">
-                    <div data-i18n="Error">Error</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="pages-misc-under-maintenance.html" class="menu-link">
-                    <div data-i18n="Under Maintenance">Under Maintenance</div>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <!-- Components -->
-           
+<!-- end  -->
 
-            <!-- Extended components -->
-     
-
-          
         </aside>
-        <!-- / Menu -->
-
-        <!-- Layout container -->
         <div class="layout-page">
           <!-- Navbar -->
 
@@ -200,34 +347,27 @@
             </div>
 
             <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-              <!-- Search -->
-              <div class="navbar-nav align-items-center">
-                <div class="nav-item d-flex align-items-center">
-                  <i class="bx bx-search fs-4 lh-0"></i>
-              
-                </div>
-              </div>
-              <!-- /Search -->
-
+            <h2>{{ Session::get('user.First_Name') }}</h2>
               <ul class="navbar-nav flex-row align-items-center ms-auto">
                 <!-- Place this tag where you want the button to render. -->
-                <li class="nav-item lh-1 me-3">
-                  <a
-                    class="github-button"
-                    href="https://github.com/themeselection/sneat-html-admin-template-free"
-                    data-icon="octicon-star"
-                    data-size="large"
-                    data-show-count="true"
-                    aria-label="Star themeselection/sneat-html-admin-template-free on GitHub"
-                    >Star</a
-                  >
-                </li>
+           
 
                 <!-- User -->
-                <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                <a href="{{ route('ui') }}" style="margin-right:130px;">front</a>
+                <li class="nav-item navbar-dropdown dropdown-user dropdown"style="
+               width: 107px;
+                margin-right: 21px;
+                background-color: dodgerblue;
+                color: white;
+                border-radius: 7px;
+                ">
                   <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
-                      <img src="../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                      <span style="
+                      color:white;
+                      margin-left:5px;
+                      padding-left:5px;
+                      ">Account</span>
                     </div>
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end">
@@ -235,13 +375,11 @@
                       <a class="dropdown-item" href="#">
                         <div class="d-flex">
                           <div class="flex-shrink-0 me-3">
-                            <div class="avatar avatar-online">
-                              <img src="../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
-                            </div>
+                            
                           </div>
                           <div class="flex-grow-1">
-                            <span class="fw-semibold d-block">John Doe</span>
-                            <small class="text-muted">Admin</small>
+                            <span class="fw-semibold d-block">{{ Session::get('user.First_Name') }}</span>
+                            <small class="text-muted">{{ Session::get('user.last_Name') }}</small>
                           </div>
                         </div>
                       </a>
@@ -250,33 +388,32 @@
                       <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="#">
-                        <i class="bx bx-user me-2"></i>
+                      <a href="{{ route('myprofile') }}" class="dropdown-item" href="#">
+                   
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                          <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                          <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                        </svg>
                         <span class="align-middle">My Profile</span>
                       </a>
                     </li>
-                    <li>
-                      <a class="dropdown-item" href="#">
-                        <i class="bx bx-cog me-2"></i>
-                        <span class="align-middle">Settings</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#">
-                        <span class="d-flex align-items-center align-middle">
-                          <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
-                          <span class="flex-grow-1 align-middle">Billing</span>
-                          <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
-                        </span>
-                      </a>
-                    </li>
+                  
                     <li>
                       <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="auth-login-basic.html">
-                        <i class="bx bx-power-off me-2"></i>
-                        <span class="align-middle">Log Out</span>
+                    <a href="{{ route('logout') }}" href="auth-login-basic.html" style="
+                    padding-left:10px;
+                    ">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-box-arrow-in-left" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd" d="M10 3.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2A1.5 1.5 0 0 1 9.5 14h-8A1.5 1.5 0 0 1 0 12.5v-9A1.5 1.5 0 0 1 1.5 2h8A1.5 1.5 0 0 1 11 3.5v2a.5.5 0 0 1-1 0z"/>
+                      <path fill-rule="evenodd" d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708z"/>
+                      </svg>
+                        <span class="align-middle" style="
+                            margin-left: 17px;
+                           color: black;
+
+                        ">Log Out</span>
                       </a>
                     </li>
                   </ul>
@@ -289,7 +426,9 @@
           <!-- / Navbar -->
 
           <!-- Content wrapper -->
-          <div class="content-wrapper">
+          <div class="content-wrapper" style="
+              width: 97%;
+          ">
             <!-- Content -->
 
             <div class="container-xxl flex-grow-1 container-p-y">
@@ -298,11 +437,11 @@
               
                 
                 <!-- Total Revenue -->
-                <div class="col-12 col-lg-8 order-2 order-md-3 order-lg-2 mb-4">
+                <!-- <div class="col-12 col-lg-8 order-2 order-md-3 order-lg-2 mb-4">
                   <div class="card">
                
                   </div>
-                </div>
+                </div> -->
                 <!--/ Total Revenue -->
                 <div class="col-12 col-md-8 col-lg-4 order-3 order-md-2">
                   <div class="row">
@@ -342,6 +481,17 @@
     <script src="<?php echo asset('js/dashboards-analytics.js');?>"></script>
     <script src="<?php echo asset('js/helpers.js');?>"></script>
     <script src="<?php echo asset('js/main.js');?>"></script>
+
+
+    <script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+
+    <script src="<?php echo asset('bootstrap-iconpicker/js/iconset/fontawesome5-3-1.min.js'); ?>"></script>
+    <script src="<?php echo asset('bootstrap-iconpicker/js/bootstrap-iconpicker.min.js');?>"></script>
+    <script src="<?php echo asset('bootstrap-iconpicker/js/jquery-menu-editor.min.js');?>"></script>
+
     @yield('js')
   </body>
 </html>
+
+

@@ -3,6 +3,7 @@
 <form method="POST" action="insertblog"enctype="multipart/form-data">
   @csrf
         <h2>Create Blog Post</h2>
+  
         <div class="form-group">
             <label for="title">Title</label>
             <input type="text" id="title" name="title" placeholder="Enter blog title" >
@@ -27,6 +28,11 @@
             <label for="author">Author Name</label>
             <input type="text" id="author" name="authorname" placeholder="Enter author name" >
             <span style="color:red">@error("authorname"){{$message}}@enderror</span>
+        </div>
+        <div class="form-group">
+            <label for="phone">Image</label>
+            <input type="file" id="phone" name="image">
+            <span style="color:red">@error("image"){{$message}}@enderror</span>
         </div>
         <div class="form-group">
             <label for="category">Gender </label>

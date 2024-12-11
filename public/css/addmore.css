@@ -1,0 +1,110 @@
+.news-container {
+    text-align: center; /* Center align the content */
+    padding: 30px;
+    animation: fadeIn 1s ease-out, bounceIn 1s ease-out; /* Combined fade-in and bounce-in animation */
+}
+
+/* Heading Styling */
+.news-heading {
+    color: #1881dd; /* Dark blue color for the heading */
+    font-size: 2.5rem; /* Adjust font size */
+    margin-bottom: 20px;
+    animation: slideInUp 1s ease-out, glowingText 2s ease-in-out infinite; /* Slide in with glowing effect */
+}
+
+/* Link Styling */
+.news-link {
+    color: #007bff; /* Primary blue color */
+    text-decoration: none;
+    font-size: 1.2rem;
+    padding: 12px 20px;
+    border-radius: 25px;
+    background-color: rgba(0, 123, 255, 0.1); /* Light blue background */
+    display: inline-block;
+    opacity: 0;
+    transform: scale(0.8);
+    animation: fadeInLink 1s ease-out 1.5s forwards, bounceInLink 0.6s ease-out 2s forwards; /* Delayed fade-in and bounce animation */
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease-in-out;
+}
+
+/* Link Hover Effect */
+.news-link:hover {
+    background-color: #0056b3; /* Darker blue background */
+    color: white; /* White text color */
+    transform: scale(1.1); /* Larger scale effect */
+    text-decoration: none;
+}
+
+/* Link Focus Effect */
+.news-link:focus {
+    outline: none; /* Remove default outline */
+    box-shadow: 0 0 15px rgba(0, 123, 255, 0.7); /* Add glowing blue shadow on focus */
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Bounce-in Animation for Container */
+@keyframes bounceIn {
+    0% {
+        transform: translateY(-30px);
+        opacity: 0;
+    }
+    60% {
+        transform: translateY(10px);
+        opacity: 1;
+    }
+    80% {
+        transform: translateY(-5px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+/* Slide-in Up Animation for Heading */
+@keyframes slideInUp {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Glowing Text Animation for Heading */
+
+/* Fade-in Animation for Link */
+@keyframes fadeInLink {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Bounce-in Animation for Link */
+@keyframes bounceInLink {
+    0% {
+        transform: scale(0.8);
+    }
+    60% {
+        transform: scale(1.1);
+    }
+    80% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
+}

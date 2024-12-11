@@ -1,14 +1,23 @@
 @extends('layout.app')
 @section('content')
-<h1 style="color:blue"> Health Blogs  </h1>
-<p><a href="{{ route('dashboard') }}" class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Add Blogs </a></p>
+<!-- start  -->
+<div class="news-container">
+    <h1 class="news-heading"> Health Blogs</h1>
+    <p>
+        <a href="{{ route('dashboard') }}" class="news-link">Add blogs</a>
+    </p>
+</div>
+<!-- end  -->
 
 <div class="table-container">
 <meta name="csrf-token" content="{{ csrf_token() }}">
-    <table id="blogTable" class="animated-table">
+    <table id="blogTable" class="animated-table" 
+    style="
+        width: 1344px;
+       margin-left: 15px;
+    ">
       <thead>
         <tr>
-        <?php  $count = 0;?>
           <th>S no</th>
           <th>Author Name</th>
           <th>Title</th>

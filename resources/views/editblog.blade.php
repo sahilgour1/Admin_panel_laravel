@@ -29,6 +29,12 @@
             <input type="text" id="author" name="authorname" value="<?php echo $blog['authorname']?>" placeholder="Enter author name" >
             <span style="color:red">@error("authorname"){{$message}}@enderror</span>
         </div>
+        <div class="input-group">
+            <label>Upload Image:</label><br>
+        <img src="{{ asset( $blog->image) }}" alt="" height="100" width="100">
+            <input type="file" name="image" id="image" />
+        </div>
+        <p>@error('image'){{$message}}@enderror</p>
         <div class="form-group">
             <label for="category">Gender</label>
             <select id="category" name="gender">
