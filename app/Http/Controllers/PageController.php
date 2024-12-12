@@ -39,10 +39,18 @@ class PageController extends Controller
         }
     }
 
-    public function pagesdatatable(){
+    public function pagesdatatable(Request $request){
         try {
             $query = page::select('id', 'title', 'date', 'number', 'gender','description');
             // dd($query->get());
+            if ($request->has('startDate') && $request->has('endDate')) {
+                $startDate = $request->input('startDate');
+                $endDate = $request->input('endDate');      
+    
+                if ($startDate && $endDate) {
+                    $query->whereBetween('date', [$startDate, $endDate]);
+                }
+            }
             return DataTables::of($query)
                 ->addColumn('edit', function ($row) {
                     return '<a href="' . route('editpages', $row->id) . '" class="btn btn-sm delete-btn">

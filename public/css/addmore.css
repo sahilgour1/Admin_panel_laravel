@@ -2,12 +2,13 @@
     text-align: center; /* Center align the content */
     padding: 30px;
     animation: fadeIn 1s ease-out, bounceIn 1s ease-out; /* Combined fade-in and bounce-in animation */
+    margin-top: -28px;
 }
 
 /* Heading Styling */
 .news-heading {
     color: #1881dd; /* Dark blue color for the heading */
-    font-size: 2.5rem; /* Adjust font size */
+    font-size:1.5rem; /* Adjust font size */
     margin-bottom: 20px;
     animation: slideInUp 1s ease-out, glowingText 2s ease-in-out infinite; /* Slide in with glowing effect */
 }
@@ -16,7 +17,7 @@
 .news-link {
     color: #007bff; /* Primary blue color */
     text-decoration: none;
-    font-size: 1.2rem;
+    /* font-size: 1.2rem; */
     padding: 12px 20px;
     border-radius: 25px;
     background-color: rgba(0, 123, 255, 0.1); /* Light blue background */

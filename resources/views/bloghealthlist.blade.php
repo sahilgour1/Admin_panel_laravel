@@ -1,14 +1,5 @@
 @extends('layout.app')
 @section('content')
-<!-- start  -->
-<div class="news-container">
-    <h1 class="news-heading"> Health Blogs</h1>
-    <p>
-        <a href="{{ route('dashboard') }}" class="news-link">Add blogs</a>
-    </p>
-</div>
-<!-- end  -->
-
 <div class="table-container">
 <meta name="csrf-token" content="{{ csrf_token() }}">
     <table id="blogTable" class="animated-table" 
@@ -16,6 +7,23 @@
         width: 1344px;
        margin-left: 15px;
     ">
+    <div class="filter-container">
+    <div class="news-container">
+        <h1 class="news-heading"> Health Blogs</h1>
+        <div class="addmore">
+          <a href="{{ route('dashboard') }}" class="news-link">Add blogs</a>
+    </div>
+    </div>
+      <div class="">
+        <h4>Filter</h4>
+        <div class="filter-inputs">
+          <label for="startDate">Start Date:</label>
+          <input type="date" name="startDate" id="startDate">
+          <label for="endDate">End Date:</label>
+          <input type="date"name="startDate" id="endDate">
+          <button id="filterButton">Filter</button>
+        </div>
+      </div>
       <thead>
         <tr>
           <th>S no</th>
@@ -42,12 +50,17 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        $('#blogTable').DataTable({
+        const table =   $('#blogTable').DataTable({
             processing: true,
             serverSide: true,
+            paging:   false,
             ajax: {
                 url: '/healthdatatable',
                 type: 'POST',
+                data: function (d) {
+                    d.startDate = $('#startDate').val(); 
+                   d.endDate = $('#endDate').val(); 
+                } 
             },
             pageLength: 5, 
             columns: [
@@ -59,6 +72,10 @@
                 { data: 'edit', orderable: false, searchable: false },
                 { data: 'delete', orderable: false, searchable: false },
             ],
+        });
+
+        $('#filterButton').on('click', function () {
+            table.ajax.reload();
         });
 });
 

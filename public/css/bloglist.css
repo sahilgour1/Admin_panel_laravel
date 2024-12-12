@@ -1,6 +1,7 @@
 .table-container {
   max-width: 100%;
   animation: fadeIn 1s ease-in-out;
+  background-color: #f4f4f4;
 }
 
 .animated-table {

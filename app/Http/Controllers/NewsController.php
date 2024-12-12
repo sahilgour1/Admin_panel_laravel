@@ -54,6 +54,14 @@ class NewsController extends Controller
         try {
             $query = newspost::select('id', 'title', 'date', 'date', 'category_for');
             // dd($query->get());
+            if ($request->has('startDate') && $request->has('endDate')) {
+                $startDate = $request->input('startDate');
+                $endDate = $request->input('endDate');      
+    
+                if ($startDate && $endDate) {
+                    $query->whereBetween('date', [$startDate, $endDate]);
+                }
+            }
             return DataTables::of($query)
                 ->addColumn('edit', function ($row) {
                     return '<a href="' . route('editnews', $row->id) . '" class="btn btn-sm delete-btn">
@@ -131,11 +139,19 @@ class NewsController extends Controller
 
     }
 
-    public function healthnewsdatatable(){
+    public function healthnewsdatatable(Request $request){
         try {
             $query = newspost::select('id', 'title', 'date', 'date', 'category_for')
             ->where('category_for', 'Health');
             // dd($query->get());
+            if ($request->has('startDate') && $request->has('endDate')) {
+                $startDate = $request->input('startDate');
+                $endDate = $request->input('endDate');      
+    
+                if ($startDate && $endDate) {
+                    $query->whereBetween('date', [$startDate, $endDate]);
+                }
+            }
             return DataTables::of($query)
                 ->addColumn('edit', function ($row) {
                     return '<a href="' . route('editnews', $row->id) . '" class="btn btn-sm delete-btn">
@@ -164,11 +180,19 @@ class NewsController extends Controller
     }
 
     
-    public function educationnewsdatatable(){
+    public function educationnewsdatatable(Request $request){
         try {
             $query = newspost::select('id', 'title', 'date', 'date', 'category_for')
             ->where('category_for', 'Education');
             // dd($query->get());
+            if ($request->has('startDate') && $request->has('endDate')) {
+                $startDate = $request->input('startDate');
+                $endDate = $request->input('endDate');      
+    
+                if ($startDate && $endDate) {
+                    $query->whereBetween('date', [$startDate, $endDate]);
+                }
+            }
             return DataTables::of($query)
                 ->addColumn('edit', function ($row) {
                     return '<a href="' . route('editnews', $row->id) . '" class="btn btn-sm delete-btn">

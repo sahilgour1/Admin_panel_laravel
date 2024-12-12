@@ -56,10 +56,18 @@ class BlogController extends Controller
             return response()->json(['message' => 'Failed to insert data.'], 500);
         }
     }
-    public function blogeducationlist(){
+    public function blogeducationlist(Request $request){
         try {
             $query = blog::select('id', 'authorname', 'title', 'date', 'category_for')
             ->where('category_for', 'Education'); 
+            if ($request->has('startDate') && $request->has('endDate')) {
+                $startDate = $request->input('startDate');
+                $endDate = $request->input('endDate');      
+    
+                if ($startDate && $endDate) {
+                    $query->whereBetween('date', [$startDate, $endDate]);
+                }
+            }
             return DataTables::of($query)
                 ->addColumn('edit', function ($row) {
                     return '<a href="' . route('editblog', $row->id) . '" class="btn btn-sm delete-btn">
@@ -87,10 +95,18 @@ class BlogController extends Controller
     }
 
 
-    public function healthlist(){
+    public function healthlist(Request $request){
         try {
             $query = blog::select('id', 'authorname', 'title', 'date', 'category_for')
             ->where('category_for', 'Health'); 
+            if ($request->has('startDate') && $request->has('endDate')) {
+                $startDate = $request->input('startDate');
+                $endDate = $request->input('endDate');      
+    
+                if ($startDate && $endDate) {
+                    $query->whereBetween('date', [$startDate, $endDate]);
+                }
+            }
             return DataTables::of($query)
                 ->addColumn('edit', function ($row) {
                     return '<a href="' . route('editblog', $row->id) . '" class="btn btn-sm delete-btn">
@@ -121,6 +137,14 @@ class BlogController extends Controller
     {
         try {
             $query = blog::select('id', 'authorname', 'title', 'date', 'category_for');
+            if ($request->has('startDate') && $request->has('endDate')) {
+                $startDate = $request->input('startDate');
+                $endDate = $request->input('endDate');      
+    
+                if ($startDate && $endDate) {
+                    $query->whereBetween('date', [$startDate, $endDate]);
+                }
+            }
             // dd($query->get());
             return DataTables::of($query)
                 ->addColumn('edit', function ($row) {

@@ -60,7 +60,7 @@
                             alt=""></a>
                 </div>
                 <div class="text">
-                    <h1>Blog FEEDS</h1>
+                    <h1>Blog FEEDS</h1> 
          
                     <p>"Insights, Inspiration, and Ideas for a Better Tomorrow"</p>
                 </div>
@@ -89,32 +89,30 @@
     <!--blogs SECTION-->
     <section class="news" id="news">
         <div class="titletext">
-            
             <h1>Blogs <span>Feed</span></h1>
         </div>
         <div class="container">
-            <?php foreach ($blog as $data){?>
-            <div class="card">
-              <div class="card__header">
-              <img  src="{{ asset( $data->image) }}" alt="card__image" class="card__image" width="600">
-              </div>
-              <div class="card__body">
-                <span class="tag">Blogs</span>
-                <h4><?php echo $data["title"]?></h4>
-                <h4><?php echo $data["description"]?></h4>
-                <p></p>
-              </div>
-              <div class="card__footer">
-                <div class="user">
-                <h5><?php echo $data["authorname"]?></h5>
-                  <div class="user__info">
-                    <small>2h ago</small>
-                  </div>
+            <?php foreach ($blog as $data) { ?>
+            <div class="card hidden">
+                <div class="card__header">
+                <img src="{{ asset($data->image) }}" alt="card__image" class="card__image">
                 </div>
-              </div>
+                <div class="card__body">
+                <span class="tag">Blogs</span>
+                <h4 class="title"><?php echo $data["title"] ?></h4>
+                <p class="description"><?php echo $data["description"] ?></p>
+                </div>
+                <div class="card__footer">
+                <div class="user">
+                    <h5><?php echo $data["authorname"] ?></h5>
+                    <div class="user__info">
+                    <small>2h ago</small>
+                    </div>
+                </div>
+                </div>
             </div>
-            <?php }?>
-          </div>
+            <?php } ?>
+        </div>
     </section>
     
     <!--news SECTION-->
@@ -236,6 +234,7 @@ $(document).ready(function () {
         });
     });
 });
+
 
 
 </script>
